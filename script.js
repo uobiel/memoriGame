@@ -51,9 +51,6 @@ function showCardsForFiveSeconds() {
     }, 5000);
 }
 
-// Exibir as cartas viradas no início do jogo
-showCardsForFiveSeconds();
-
 cardsElements.forEach((cardElement, index) => {
     cardElement.addEventListener('click', function() {
         const cardId = cardElement.id;
@@ -111,11 +108,53 @@ username.addEventListener('input', function(){
     }
 })
 
-play.addEventListener('click', function(){
+let timerInterval;
+let secondsLeft = 60; // Defina o tempo inicial em segundos
+
+// Função para atualizar o contador de tempo
+function updateTimer() {
+    const minutes = Math.floor(secondsLeft / 60);
+    const seconds = secondsLeft % 60;
+    containerName.innerHTML = `
+        <p>${username.value}</p>
+        <p>Tempo: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}</p>
+    `;
+}
+
+// Função para iniciar o contador
+function startTimer() {
+    timerInterval = setInterval(function() {
+        secondsLeft--;
+        updateTimer();
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
+            // Adicione qualquer ação adicional após o término do contador, se necessário
+        }
+    }, 1000); // A cada segundo
+}
+
+// Função para exibir as cartas viradas e depois de 5 segundos ocultá-las novamente
+function showCardsForFiveSeconds() {
+    cardsElements.forEach((cardElement, index) => {
+        const currentCard = cards[index];
+        cardElement.classList.add(currentCard.hero);
+        currentCard.flipped = true;
+    });
+
+    // Iniciar o contador após 5 segundos
+    setTimeout(() => {
+        startTimer(); // Inicia o contador
+        cardsElements.forEach((cardElement, index) => {
+            const currentCard = cards[index];
+            cardElement.classList.remove(currentCard.hero);
+            currentCard.flipped = false;
+        });
+    }, 5000);
+}
+
+// Evento de clique no botão "play"
+play.addEventListener('click', function() {
     page.style.display = 'block';
     pageDois.style.display = 'none';
-
-    containerName.innerHTML = `
-    <p>${username.value}</p>
-`
-})
+    showCardsForFiveSeconds();
+});

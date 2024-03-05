@@ -108,9 +108,12 @@
 .container-name {
     position: fixed;
     top: 20px;
-    left: 20px;
     font-size: 30px;
     color: #ffff;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .pageDois {
@@ -215,4 +218,22 @@
     position: fixed;
     right: 50px;
     top: 50px;
+}
+
+@media only screen and (max-width: 768px) {
+    container-name {
+        font-size: 20px;
+    }
+
+    .container-img-goku {
+        width: 150px;
+        height: 150px;
+        background-image: url(img/goku-nuvem-png-_3631-x-3548_px-137-MB\ 1.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto 100%;
+        position: fixed;
+        right: 10px;
+        top: 10px;
+    }
 }
