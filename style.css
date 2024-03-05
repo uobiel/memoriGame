@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Kavoon", serif;
+}
+
+.page {
+    width: 100%;
+    height: 100vh;
+    background-image: url(img/Frame\ 8\ \(2\).svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    display: none;
+}
+
+.fade {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.455);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-cards {
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.linha {
+    width: 100%;
+    display: flex;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.card:hover {
+    transform: scale(0.95);
+}
+
+.cardVerso {
+    background-image: url(img/Card.svg);
+    transition: background 0.4s ease-in-out;
+}
+
+.heroUmImg {
+    background-image: url(img/Card\(1\).svg);
+}
+
+.heroDoisImg {
+    background-image: url(img/card-Vegeta.svg);
+}
+
+.heroTresImg {
+    background-image: url(img/card-Gohan.svg);
+}
+
+.heroQuatroImg {
+    background-image: url(img/card-Piccolo.svg);
+}
+
+.heroCincoImg {
+    background-image: url(img/card-Trunks.svg);
+}
+
+.heroSeisImg {
+    background-image: url(img/card-Boo.svg);
+}
+
+.heroSeteImg {
+    background-image: url(img/card-Cell.svg);
+}
+
+.heroOitoImg {
+    background-image: url(img/card-Freeza.svg);
+}
+
+.heroNoveImg {
+    background-image: url(img/card-Kuririn.svg);
+}
+
+.heroDezImg {
+    background-image: url(img/card-Satan.svg);
+}
+
+.flip {
+    transition: transform 0.5s ease;
+}
+
+.container-name {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 30px;
+    color: #ffff;
+}
+
+.pageDois {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(180deg, #FD902A 0%, #821B12 100%);
+    display: block;
+}
+
+.container-img {
+    width: 100%;
+    height: 100vh;
+    background-image: url(img/Imagem\ -\ Dragão.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-form {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    flex-direction: column;
+}
+
+.container-form form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+}
+
+.container-form form input {
+    padding: 25px;
+    margin: 5px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 8px;
+    color: #898989;
+    font-weight: bold;
+    font-size: 15px;
+    outline: none;
+}
+
+.container-form form input[type="text"] {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-form form input[type="button"] {
+    font-size: 20px;
+}
+
+.efeitoHover:hover {
+    transform: scale(0.98);
+}
+
+.container-form form input::placeholder {
+    color: #898989;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-header-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-title {
+    width: 100%;
+    font-size: 40px;
+    margin: 20px;
+    color: #FFFFFF;
+}
+
+.container-img-header-form {
+    width: 100%;
+    max-width: 150px;
+    height: 100px;
+    background-image: url(img/brain\ 1.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+}
+
+.container-img-goku {
+    width: 200px;
+    height: 200px;
+    background-image: url(img/goku-nuvem-png-_3631-x-3548_px-137-MB\ 1.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+    position: fixed;
+    right: 50px;
+    top: 50px;
+}
