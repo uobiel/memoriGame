@@ -21,21 +21,21 @@ const cards = [
     { id: 'card20', hero: 'heroDezImg', flipped: false }
 ];
 
-function shuffleIds(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffleCardsByHero(array) {
+    const heroes = array.map(card => card.hero);
+    for (let i = heroes.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i].id, array[j].id] = [array[j].id, array[i].id];
+        [heroes[i], heroes[j]] = [heroes[j], heroes[i]];
     }
+    array.forEach((card, index) => {
+        card.hero = heroes[index];
+    });
 }
 
-shuffleIds(cards);
-
-const cardsElements = document.querySelectorAll('.cardVerso');
-
-let flippedCards = []; // Array para armazenar as cartas viradas
-
-// Função para exibir as cartas viradas e depois de 5 segundos ocultá-las novamente
 function showCardsForFiveSeconds() {
+    originalOrder = [...cards.map(card => card.id)];
+    shuffleCardsByHero(cards);
+
     cardsElements.forEach((cardElement, index) => {
         const currentCard = cards[index];
         cardElement.classList.add(currentCard.hero);
@@ -43,49 +43,65 @@ function showCardsForFiveSeconds() {
     });
 
     setTimeout(() => {
+        startTimer();
         cardsElements.forEach((cardElement, index) => {
-            const currentCard = cards[index];
+            const currentCard = cards.find(card => card.id === originalOrder[index]);
             cardElement.classList.remove(currentCard.hero);
+            cardElement.classList.add('cardVerso');
             currentCard.flipped = false;
         });
+        checkGameStatus(); // Verifica se o usuário perdeu após 5 segundos
     }, 5000);
 }
+
+function checkGameStatus() {
+    const allCardsFlipped = cards.every(card => card.flipped);
+    if (allCardsFlipped) {
+        clearInterval(timerInterval);
+        setTimeout(() => {
+            document.querySelector('.fade-modal').style.display = 'flex';
+            document.querySelector('.fade-modal p').textContent = 'Você ganhou!';
+        }, 500);
+    } else if (secondsLeft === 0) {
+        clearInterval(timerInterval);
+        document.querySelector('.fade-modal').style.display = 'flex';
+        document.querySelector('.fade-modal p').textContent = 'Você perdeu!';
+    }
+}
+
+const cardsElements = document.querySelectorAll('.cardVerso');
+let flippedCards = [];
+
+let originalOrder = [];
 
 cardsElements.forEach((cardElement, index) => {
     cardElement.addEventListener('click', function() {
         const cardId = cardElement.id;
         const clickedCard = cards.find(card => card.id === cardId);
 
-        // Verificar se a carta já foi virada
         if (!clickedCard.flipped && flippedCards.length < 2) {
-            // Virar a carta
             cardElement.classList.add(clickedCard.hero);
             clickedCard.flipped = true;
-
-            // Adicionar carta virada ao array
             flippedCards.push(clickedCard);
 
-            // Verificar se foram viradas duas cartas
             if (flippedCards.length === 2) {
-                // Verificar se as duas cartas são iguais
                 if (flippedCards[0].hero !== flippedCards[1].hero) {
-                    // Se não forem iguais, virar as cartas de volta após um curto intervalo
                     setTimeout(() => {
                         flippedCards.forEach(flippedCard => {
                             const flippedCardElement = document.getElementById(flippedCard.id);
                             flippedCardElement.classList.remove(flippedCard.hero);
+                            flippedCardElement.classList.add('cardVerso');
                             flippedCard.flipped = false;
                         });
-                        flippedCards = []; // Limpar array de cartas viradas
+                        flippedCards = [];
                     }, 1000);
                 } else {
-                    flippedCards = []; // Limpar array de cartas viradas
+                    flippedCards = [];
                 }
             }
         }
     });
 });
-
 
 const play = document.querySelector("#play");
 const username = document.querySelector("#username");
@@ -109,9 +125,8 @@ username.addEventListener('input', function(){
 })
 
 let timerInterval;
-let secondsLeft = 60; // Defina o tempo inicial em segundos
+let secondsLeft = 60;
 
-// Função para atualizar o contador de tempo
 function updateTimer() {
     const minutes = Math.floor(secondsLeft / 60);
     const seconds = secondsLeft % 60;
@@ -121,38 +136,47 @@ function updateTimer() {
     `;
 }
 
-// Função para iniciar o contador
 function startTimer() {
     timerInterval = setInterval(function() {
         secondsLeft--;
         updateTimer();
         if (secondsLeft === 0) {
             clearInterval(timerInterval);
-            // Adicione qualquer ação adicional após o término do contador, se necessário
+            checkGameStatus(); // Verifica se o tempo acabou e se o usuário perdeu
         }
-    }, 1000); // A cada segundo
+    }, 1000);
 }
 
-// Função para exibir as cartas viradas e depois de 5 segundos ocultá-las novamente
-function showCardsForFiveSeconds() {
-    cardsElements.forEach((cardElement, index) => {
-        const currentCard = cards[index];
-        cardElement.classList.add(currentCard.hero);
-        currentCard.flipped = true;
-    });
+const playAgainButton = document.querySelector('.fade-modal button:nth-of-type(1)');
+const returnToHomeButton = document.querySelector('.fade-modal button:nth-of-type(2)');
 
-    // Iniciar o contador após 5 segundos
-    setTimeout(() => {
-        startTimer(); // Inicia o contador
-        cardsElements.forEach((cardElement, index) => {
-            const currentCard = cards[index];
-            cardElement.classList.remove(currentCard.hero);
-            currentCard.flipped = false;
-        });
-    }, 5000);
+playAgainButton.addEventListener('click', function() {
+    document.querySelector('.fade-modal').style.display = 'none';
+    resetGame();
+});
+
+returnToHomeButton.addEventListener('click', function() {
+    document.querySelector('.fade-modal').style.display = 'none';
+    page.style.display = 'none';
+    pageDois.style.display = 'block';
+});
+
+function resetGame() {
+    // Oculta o modal de vitória ou derrota
+    document.querySelector('.fade-modal').style.display = 'none';
+    
+    // Reinicia o temporizador e atualiza a interface do usuário
+    clearInterval(timerInterval);
+    secondsLeft = 60;
+    updateTimer();
+    
+    // Reembaralha os cartões e mostra-os por cinco segundos
+    shuffleCardsByHero(cards);
+    showCardsForFiveSeconds();
 }
 
-// Evento de clique no botão "play"
+
+
 play.addEventListener('click', function() {
     page.style.display = 'block';
     pageDois.style.display = 'none';
