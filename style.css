@@ -263,9 +263,9 @@
     font-size: 20px;
 }
 
-@media only screen and (max-width: 768px) {
-    container-name {
-        font-size: 20px;
+@media only screen and (max-width: 568px) {
+    .container-name {
+        font-size: 15px;
     }
 
     .container-img-goku {
