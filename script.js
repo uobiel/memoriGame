@@ -170,10 +170,25 @@ function resetGame() {
     secondsLeft = 60;
     updateTimer();
     
+    // Reinicia o estado dos cartões
+    cards.forEach(card => {
+        card.flipped = false;
+    });
+
+    // Remova todas as classes de herói dos elementos dos cartões
+    cardsElements.forEach(cardElement => {
+        cardElement.classList.remove(...cards.map(card => card.hero));
+        cardElement.classList.add('cardVerso');
+    });
+
+    // Limpa o array de cartões virados
+    flippedCards = [];
+
     // Reembaralha os cartões e mostra-os por cinco segundos
     shuffleCardsByHero(cards);
     showCardsForFiveSeconds();
 }
+
 
 
 
