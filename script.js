@@ -58,15 +58,15 @@ function checkGameStatus() {
     const allCardsFlipped = cards.every(card => card.flipped);
     if (allCardsFlipped) {
         clearInterval(timerInterval);
-        setTimeout(() => {
-            document.querySelector('.fade-modal').style.display = 'flex';
-            document.querySelector('.fade-modal p').textContent = 'Você ganhou!';
-        }, 500);
-    } else if (secondsLeft === 0) {
-        clearInterval(timerInterval);
-        document.querySelector('.fade-modal').style.display = 'flex';
-        document.querySelector('.fade-modal p').textContent = 'Você perdeu!';
+        showGameResult('Você ganhou!');
     }
+}
+
+function showGameResult(message) {
+    setTimeout(() => {
+        document.querySelector('.fade-modal').style.display = 'flex';
+        document.querySelector('.fade-modal p').textContent = message;
+    }, 500);
 }
 
 const cardsElements = document.querySelectorAll('.cardVerso');
@@ -99,6 +99,8 @@ cardsElements.forEach((cardElement, index) => {
                     flippedCards = [];
                 }
             }
+
+            checkGameStatus(); // Verifica se o usuário ganhou após virar uma carta
         }
     });
 });
